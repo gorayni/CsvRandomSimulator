@@ -7,13 +7,12 @@ The simulator creates CSV files with random records by defining its fields and r
 Requirements
 ---
 
-The JAR file execution only requires [Java 8] and the development requires [Maven] and optionally [Eclipse].
-Additionally, the random variable dependencies visualization requires [GraphViz].
+The JAR file execution only requires [Java 8] and the development requires [Maven] and optionally [Eclipse]. Additionally, the random variable dependencies visualization requires [GraphViz].
 
 How to build it
 ---
 
-Once the code was downloaded, inside the project directory run:
+Once the code was downloaded, run the next command inside the project directory:
 
 ```sh
 mvn compile
@@ -94,6 +93,4 @@ The next example files are located in the main directory:
 [GraphViz]: http://www.graphviz.org/
 [Maven]: http://maven.apache.org/
 [YAML]:http://www.yaml.org/
-[Homebrew]: http://brew.sh/
-[MacPorts]:https://www.macports.org/ports.php
 [DOT]:http://en.wikipedia.org/wiki/DOT_(graph_description_language)
