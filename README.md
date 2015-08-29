@@ -10,20 +10,33 @@ Requirements
 The JAR file execution only requires [Java 8] and the development requires [Maven] and optionally [Eclipse].
 Additionally, the random variable dependencies visualization requires [GraphViz].
 
-Compilation
+How to build it
 ---
 
+Once the code was downloaded, inside the project directory run:
+
+```sh
+mvn compile
+mvn assembly:assembly -DdescriptorId=jar-with-dependencies
+mv target/csvSimulator-1.0-jar-with-dependencies.jar target/csvSimulator-1.0.jar
+```
+
+Aditionally, an eclipse project can be created by running:
+
+```sh
+mvn eclipse:eclipse
+```
 
 Simulator execution
 ---
 
-The simulator needs a YAML configuration file that defines a CsvGenerator structure. For example, the next snippet shows the contents of *saludos.yml*:
+The simulator needs a YAML configuration file that defines a CsvGenerator structure. For example, the next snippet shows the contents of *greetings.yml*:
 
 ```yaml
 !!com.csvsim.wrapper.CsvGenerator
 fields:
 - &id001 {name: greeting, type: STRING}
-generator:  !!com.csvsim.wrapper.String {field: *id001, discreteHistogram: {Hi: 0.4, Bye: 0.4, Au revoir: 0.2}}
+generator: !!com.csvsim.wrapper.String {field: *id001, discreteHistogram: {Hi: 0.4, Bye: 0.4, Au revoir: 0.2}}
 ```
 
 This files defines a single field named **greeting** and its discrete distribution with three strings: "Hi", "Bye", and "Au revoir".
@@ -31,17 +44,17 @@ This files defines a single field named **greeting** and its discrete distributi
 To simulate an infinite number of records run:
 
 ```sh
-java -jar target/simulador-1.0.jar -f greetings.yml
+java -jar target/csvSimulator-1.0.jar -f greetings.yml
 ```
 To simulate only five records run:
 
 ```sh
-java -jar target/simulador-1.0.jar -f greetings.yml -n 5
+java -jar target/csvSimulator-1.0.jar -f greetings.yml -n 5
 ```
 Both simulations can be run on a socket server, for example, to simulate 100 records and start the server on port 2020 type:
 
 ```sh
-java -jar target/simulador-1.0.jar -f greetings.yml -n 100 -p 2020
+java -jar target/csvSimulator-1.0.jar -f greetings.yml -n 100 -p 2020
 ```
 To test the server, open another terminal and run telnet on port 2020:
 
@@ -51,15 +64,20 @@ telnet localhost 2020
 Finally, to create a field and random distribution dependency graph in [DOT] language run:
 
 ```sh
-java -jar target/simulador-1.0.jar -f saludos.yml -d saludos.dot
+java -jar target/csvSimulator-1.0.jar -f greetings.yml -d greetings.dot
 ```
 To create a SVG file run:
 
 ```sh
-dot -Tsvg saludos.dot > saludos.svg
+dot -Tsvg greetings.dot > greetings.svg
 ```
 
-Ejemplos
+For instance, the next image shows the fields and random distributions of the **3.containers.yml** example.
+
+![containers](3.containers.png)
+
+
+Examples
 ---
 
 The next example files are located in the main directory:
