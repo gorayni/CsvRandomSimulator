@@ -1,0 +1,20 @@
+!!com.csvsim.wrapper.CsvGenerator
+fields:
+- &ID {name: id, type: LONG}
+- &date {name: date, type: DATE}
+
+generator: !!com.csvsim.wrapper.DiscreteEvent
+
+    # There will be 29 events in memory, initially distributed during the first day starting on NOV/1/2014
+    numEvents: 29
+    # The time distribution can be a Poisson process too
+    timeDistribution: !!com.csvsim.wrapper.UniformDate {field: *date, initialDate: 2014-11-01, period: {days: 1} } # IThe period attribute is implicitly com.csvsim.wrapper.Period
+
+
+    # Each of the 29 events will b executed every 12 hours according to a Poisson distribution
+    frequency: {hours: 12}
+
+    # Other generators can be executed to initialize the values of each event. When the initialization
+    # ends, these generators are collected by the Garbage Collector.
+    generators: [ !!com.csvsim.wrapper.UniqueId {field: *ID, startNumber: 1 }]
+

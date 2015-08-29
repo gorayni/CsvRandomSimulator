@@ -1,0 +1,3 @@
+!!com.csvsim.wrapper.CsvGenerator
+fields: [ &stringField {name: cadena, type: STRING} ]
+generator: !!com.csvsim.wrapper.String {field: *stringField, values: [HELLO, WORLD]} 

@@ -1,0 +1,37 @@
+!!com.csvsim.wrapper.CsvGenerator
+fields:
+- &fixedStringField {name: fixedField, type: STRING}
+- &coinField {name: coin, type: STRING}
+- &sensationField {name: sensation, type: STRING}
+
+hiddenFields:
+- &binaryField {name: binary, type: INTEGER}
+- &temperatureField {name: temperature, type: DOUBLE}
+
+# LIST CONTAINER
+generator: !!com.csvsim.wrapper.List
+# The generators inside a list are executed with respect to their declaration order
+  generators:
+  - !!com.csvsim.wrapper.Setter {field: *fixedStringField, value: FIRST GENERATOR}
+
+  # EXECT DECISION
+  # If a decision is taken with respect to a fixed value, then the exact attribute is true
+  - !!com.csvsim.wrapper.Integer {field: *binaryField, min: 0, max: 1}
+  - !!com.csvsim.wrapper.Decision
+    exact: true
+    field: *binaryField
+    generatorsByValue:
+        0: !!com.csvsim.wrapper.Setter {field: *coinField, value: HEADS}
+        1: !!com.csvsim.wrapper.Setter {field: *coinField, value: TAILS}
+
+  # DECISION RANGO
+  # If a decision is taken with respect to a range value, then the exact attribute is false
+  - !!com.csvsim.wrapper.Double {field: *temperatureField, min: -10, max: 40}
+  - !!com.csvsim.wrapper.Decision
+    exact: false
+    field: *temperatureField
+    generatorsByValue:
+        # if value <= 12.5
+        12.5: !!com.csvsim.wrapper.Setter {field: *sensationField, value: FEELS COLD}
+        # if value <= 40		
+        40.: !!com.csvsim.wrapper.Setter {field: *sensationField, value: FEELS HOT}

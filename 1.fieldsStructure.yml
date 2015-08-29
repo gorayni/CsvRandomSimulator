@@ -1,0 +1,22 @@
+!!com.csvsim.wrapper.CsvGenerator
+seed: 100 #OPTIONAL Random seed to initialize all random generators
+
+fields: # MANDATORY
+# These fields are print in the CSV file with respect to their declaration order
+- &referencedField {name: id, type: LONG}
+# This field is an output only field and can't be referenced by any generator
+- {name: constantString, type: STRING, constantValue: CONSTANT STRING}
+# These fields can be formatted according to their Java syntax http://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax
+- &formatField {name: formatField, type: DOUBLE, format: '%.6f'}
+
+hiddenFields: #OPTIONAL
+# These fields are not print, but can be referenced by any generator
+- {name: campoOculto, type: STRING}
+
+generator: # MANDATORY
+ !!com.csvsim.wrapper.List
+ generators:
+   # The generators are excuted by their declaration order
+   - !!com.csvsim.wrapper.UniqueId {field: *referencedField, startNumber: 0 }
+   - !!com.csvsim.wrapper.Double {field: *formatField, min: 0, max: 10}
+  

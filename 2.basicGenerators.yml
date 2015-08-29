@@ -1,0 +1,58 @@
+!!com.csvsim.wrapper.CsvGenerator
+fields:
+- &doubleUniformRangefield {name: doubleUniformRange, type: DOUBLE}
+- &doubleSplineRangefield {name: doubleSplineRange, type: DOUBLE}
+- &doubleDiscretefield {name: doubleDiscrete, type: DOUBLE}
+- &integerUniformRangeField {name: integerUniformRange, type: INTEGER}
+- &integerSplineRangeField {name: integerSplineRange, type: INTEGER}
+- &discreteIntegerField {name: discreteInteger, type: INTEGER}
+- &fixedDateField {name: fixedDate, type: DATE}
+- &fixedStringField {name: fixedString, type: STRING}
+- &fixedDoubleField {name: fixedDouble, type: DOUBLE}
+- &fixedIntegerField {name: fixedInteger, type: INTEGER}
+- &uniformStringField {name: uniformString, type: STRING}
+- &discreteStringField {name: discreteString, type: STRING}
+- &uniqueIDField {name: uniqueID, type: LONG}
+- &uniformDateField {name: uniformDate, type: DATE}
+- &poissonProcessField1 {name: poissonProcess1, type: DATE}
+- &poissonProcessField2 {name: poissonProcess2, type: DATE}
+- &exponentialField {name: exponential, type: DOUBLE}
+- &normalField {name: normal, type: DOUBLE}
+- &paretoField {name: pareto, type: DOUBLE}
+- &poissonField {name: poisson, type: DOUBLE}
+
+generator: !!com.csvsim.wrapper.List
+  generators:
+  # DOUBLE GENERATOR
+  - !!com.csvsim.wrapper.Double {field: *doubleUniformRangefield, min: -100, max: 100}
+  - !!com.csvsim.wrapper.Double {field: *doubleSplineRangefield, min: -25.5, max: 25.5, spline: [10,8,5,2,0,2,5,8,10]}
+  - !!com.csvsim.wrapper.Double {field: *doubleDiscretefield, discreteHistogram: {-1.5: 30, 0: 60, 10.8: 10}}
+  # INTEGER GENERATOR
+  - !!com.csvsim.wrapper.Integer {field: *integerUniformRangeField, min: -100, max: 100}
+  - !!com.csvsim.wrapper.Integer {field: *integerSplineRangeField, min: -25, max: 25, spline: [10,8,5,2,0,2,5,8,10]}
+  - !!com.csvsim.wrapper.Integer {field: *discreteIntegerField, discreteHistogram: {-1: 30, 0: 60, 10: 10}}
+  # SETTER
+  - !!com.csvsim.wrapper.Setter {field: *fixedDateField, value: "2001-12-15 2:59:43.10"}
+  - !!com.csvsim.wrapper.Setter {field: *fixedStringField, value: FIXED}
+  - !!com.csvsim.wrapper.Setter {field: *fixedDoubleField, value: 3}
+  - !!com.csvsim.wrapper.Setter {field: *fixedIntegerField, value: 3}
+  # STRING GENERATOR
+  - !!com.csvsim.wrapper.String {field: *uniformStringField, values: [ONE, TWO, THREE]} 
+  - !!com.csvsim.wrapper.String {field: *discreteStringField, discreteHistogram: {A: 30, B: 60, C: 10}}
+  # UNIQUE IDs GENERATOR
+  # Creates incremental, random IDs from a start number
+  - !!com.csvsim.wrapper.UniqueId {field: *uniqueIDField, startNumber: 100 }
+  # UNIFORM DATE GENERATOR
+  - !!com.csvsim.wrapper.UniformDate {field: *uniformDateField, initialDate: 2002-12-14, period: !!com.csvsim.wrapper.Period {days: 1, hours: 12} }
+  # POISSON PROCESS GENERATOR
+  # Creates ordered dates according to a start date and number of events
+  # This example takes 25 samples from a period starting at 1-11-1985. Eighty percent of the samples occur between 9 and 10.
+  - !!com.csvsim.wrapper.PoissonProcess {field: *poissonProcessField1, numArrivalsPerCycle: 25, startDate: 1985-11-01, probabilityByPeriod: { !!com.csvsim.wrapper.Period {hours: 9}: 10, !!com.csvsim.wrapper.Period {hours: 10}: 80, !!com.csvsim.wrapper.Period {hours: 24}: 10} }
+  # This example takes 100 samples in a two day period starting on the current day
+  - !!com.csvsim.wrapper.PoissonProcess {field: *poissonProcessField2, numArrivalsPerCycle: 100, probabilityByPeriod: { !!com.csvsim.wrapper.Period {days: 2}: 1} }
+  # APACHE COMMONS MATH GENERATORS
+  # To see more constructors http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/distribution/package-summary.html
+  - !!com.csvsim.wrapper.Exponential {field: *exponentialField, mean: 10}
+  - !!com.csvsim.wrapper.Normal {field: *normalField, mean: 10, sd: 1}
+  - !!com.csvsim.wrapper.Pareto {field: *paretoField }
+  - !!com.csvsim.wrapper.Poisson {field: *poissonField, p: 1 }
