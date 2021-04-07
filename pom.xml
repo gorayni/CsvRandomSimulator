@@ -52,13 +52,11 @@
 		<artifactId>commons-math3</artifactId>
 		<version>3.3</version>
 	</dependency>
-
 	<dependency>
 		<groupId>com.google.guava</groupId>
 		<artifactId>guava</artifactId>
-		<version>24.1.1</version>
-	</dependency>
-	
+		<version>[30.0-jre,)</version>
+	</dependency>	
 	<dependency>
 		<groupId>joda-time</groupId>
 		<artifactId>joda-time</artifactId>
